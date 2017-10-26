@@ -1,0 +1,8 @@
+{
+  "name": "game_of_life",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/danoph/game_of_life_ts",
+  "author": "Daniel Errante <danoph@gmail.com>",
+  "license": "MIT"
+}
