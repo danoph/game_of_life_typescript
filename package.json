@@ -4,5 +4,10 @@
   "main": "index.js",
   "repository": "https://github.com/danoph/game_of_life_ts",
   "author": "Daniel Errante <danoph@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jasmine": "^2.8.0",
+    "karma": "^1.7.1",
+    "typescript": "^2.5.3"
+  }
 }
