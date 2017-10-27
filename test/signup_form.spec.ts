@@ -45,5 +45,24 @@ describe('SignupForm', () => {
         expect(subject.errors.first_name).toEqual(["can't be blank"])
       });
     });
+
+    describe('last name is empty string', () => {
+      beforeEach(() => {
+        params = {
+          first_name: 'Daniel',
+          last_name: '',
+          email: 'test@example.com',
+          password: 'password123',
+          password_confirmation: 'password123'
+        }
+
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.last_name).toEqual(["can't be blank"])
+      });
+    });
   });
 });

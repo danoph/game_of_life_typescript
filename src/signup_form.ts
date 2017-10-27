@@ -15,12 +15,16 @@ export class SignupForm {
 
   constructor(private params: ISignupFormParams = {}) {}
 
-  isValid() {
-    if (this.params.first_name.length) {
-      return true;
-    } else {
+  isValid(): boolean {
+
+    if (!this.params.first_name.length) {
       this.errors.first_name = [ "can't be blank" ];
-      return false;
     }
+
+    if (!this.params.last_name.length) {
+      this.errors.last_name = [ "can't be blank"];
+    }
+
+    return Object.keys(this.errors).length === 0;
   }
 }
