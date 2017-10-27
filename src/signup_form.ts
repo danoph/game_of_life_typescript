@@ -37,23 +37,31 @@ export class SignupForm {
       }
     }
 
+
     if(this.params.password !== this.params.password_confirmation){
-      this.errors.password = [ "does not match" ];
+      this.pushPasswordError("does not match")
     }
     else{
       if(this.params.password.length < this.AUTH_CONFIG.MIN_PASSWORD_LENGTH){
-        this.errors.password = [ "too short" ];
+        this.pushPasswordError("too short" );
       }
 
       if(!this.doesPasswordContainUppercase(this.params.password)){
-        this.errors.password = ["doesn't contain an uppercase letter"];
+        this.pushPasswordError("doesn't contain an uppercase letter");
       }
+      
       
 
     }
     
 
     return Object.keys(this.errors).length === 0;
+  }
+
+  private pushPasswordError(errorMessage:string){
+    if(!this.errors.password) this.errors.password = [];
+
+    this.errors.password.push(errorMessage);
   }
 
   private isValidEmailAddress(email:string):boolean{
