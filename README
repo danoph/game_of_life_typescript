@@ -1,0 +1,28 @@
+Assumptions:
+- Node >7 installed
+- karma-cli installed (npm i -g karma-cli)
+- You aren't using windows
+
+Setup:
+- after cloning repo, run `npm install`
+- to start karma, run `karma start`
+
+Saving files will automatically trigger the karma test runner to run the tests.
+
+General Notes:
+- think of describe() as "when", such as:
+  "when password does not contain an uppercase character" ->
+
+  describe('password does not contain an uppercase character...'
+
+- think of it() as "then", such as:
+  "then the isValid method should return false"
+
+  it('returns false...'
+
+- think of beforeEach() as "given", such as:
+  "given my password is 'Password123!'"
+
+  beforeEach(() => {
+    password = 'Password123!'
+  });
