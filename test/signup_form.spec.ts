@@ -102,5 +102,25 @@ describe('SignupForm', () => {
         expect(subject.errors.email).toEqual(["not a valid email address"])
       });
     });
+
+    describe('password does not match password confirmation', () => {
+      beforeEach(() => {
+        params = {
+          first_name: 'Daniel',
+          last_name: 'Errante',
+          email: 'test@example.com',
+          password: 'password123',
+          password_confirmation: 'password1234'
+        }
+
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.password).toEqual(["does not match"])
+        expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+    });
   });
 });

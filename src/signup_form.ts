@@ -34,6 +34,10 @@ export class SignupForm {
       }
     }
 
+    if(this.params.password !== this.params.password_confirmation){
+      this.errors.password = [ "does not match" ];
+    }
+
     return Object.keys(this.errors).length === 0;
   }
 
