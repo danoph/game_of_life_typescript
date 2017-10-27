@@ -1,5 +1,6 @@
 import { PasswordValidator } from '../src/password_validator';
 
+// must be at least 8 characters
 // must include at least 1 uppercase letter
 // must include at least 1 lowercase letter
 // must include at least 1 special character (ex ‘%’)
@@ -31,6 +32,17 @@ describe('PasswordValidator', () => {
     });
   });
 
+  describe('without a number', () => {
+    beforeEach(() => {
+      password = 'Password!';
+      subject = new PasswordValidator(password);
+    });
+
+    it('returns false', () => {
+      expect(subject.isValid()).toEqual(false);
+    });
+  });
+
   describe('without lowercase letter', () => {
     beforeEach(() => {
       password = 'PASSWORD123!';
@@ -42,14 +54,25 @@ describe('PasswordValidator', () => {
     });
   });
 
-  //describe('without special characterj', () => {
-    //beforeEach(() => {
-      //password = 'Password123';
-      //subject = new PasswordValidator(password);
-    //});
+  describe('without special character', () => {
+    beforeEach(() => {
+      password = 'Password123';
+      subject = new PasswordValidator(password);
+    });
 
-    //it('returns false', () => {
-      //expect(subject.isValid()).toEqual(false);
-    //});
-  //});
+    it('returns false', () => {
+      expect(subject.isValid()).toEqual(false);
+    });
+  });
+
+  describe('less than 8 characters', () => {
+    beforeEach(() => {
+      password = 'P@ss1';
+      subject = new PasswordValidator(password);
+    });
+
+    it('returns false', () => {
+      expect(subject.isValid()).toEqual(false);
+    });
+  });
 });
