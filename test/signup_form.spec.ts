@@ -16,8 +16,8 @@ describe('SignupForm', () => {
         first_name: 'Daniel',
         last_name: 'Errante',
         email: 'test@example.com',
-        password: 'password123',
-        password_confirmation: 'password123'
+        password: 'Password123!',
+        password_confirmation: 'Password123!'
       }
 
       subject = new SignupForm(params);
@@ -25,18 +25,12 @@ describe('SignupForm', () => {
 
     it('is valid', () => {
       expect(subject.isValid()).toEqual(true);
+      expect(subject.errors).toEqual({});
     });
 
     describe('first name is empty string', () => {
       beforeEach(() => {
-        params = {
-          first_name: '',
-          last_name: 'Errante',
-          email: 'test@example.com',
-          password: 'password123',
-          password_confirmation: 'password123'
-        }
-
+        params.first_name = '';
         subject = new SignupForm(params);
       });
 
@@ -48,14 +42,7 @@ describe('SignupForm', () => {
 
     describe('last name is empty string', () => {
       beforeEach(() => {
-        params = {
-          first_name: 'Daniel',
-          last_name: '',
-          email: 'test@example.com',
-          password: 'password123',
-          password_confirmation: 'password123'
-        }
-
+        params.last_name = '';
         subject = new SignupForm(params);
       });
 
@@ -67,14 +54,7 @@ describe('SignupForm', () => {
 
     describe('email is blank', () => {
       beforeEach(() => {
-        params = {
-          first_name: 'Daniel',
-          last_name: 'Errante',
-          email: '',
-          password: 'password123',
-          password_confirmation: 'password123'
-        }
-
+        params.email = '';
         subject = new SignupForm(params);
       });
 
@@ -86,14 +66,7 @@ describe('SignupForm', () => {
 
     describe('email is not a valid email', () => {
       beforeEach(() => {
-        params = {
-          first_name: 'Daniel',
-          last_name: 'Errante',
-          email: 'invalidemail',
-          password: 'password123',
-          password_confirmation: 'password123'
-        }
-
+        params.email = 'invalidemail';
         subject = new SignupForm(params);
       });
 
@@ -105,14 +78,7 @@ describe('SignupForm', () => {
 
     describe('password does not match password confirmation', () => {
       beforeEach(() => {
-        params = {
-          first_name: 'Daniel',
-          last_name: 'Errante',
-          email: 'test@example.com',
-          password: 'password123',
-          password_confirmation: 'password1234'
-        }
-
+        params.password_confirmation = 'password1234';
         subject = new SignupForm(params);
       });
 
@@ -132,20 +98,28 @@ describe('SignupForm', () => {
 
     describe('password is too short', () => {
       beforeEach(() => {
-        params = {
-          first_name: 'Daniel',
-          last_name: 'Errante',
-          email: 'test@example.com',
-          password: 'pw123',
-          password_confirmation: 'pw123'
-        }
-
+        params.password = 'Pw123';
+        params.password_confirmation = 'Pw123';
         subject = new SignupForm(params);
       });
 
       it('is not valid', () => {
         expect(subject.isValid()).toEqual(false);
         expect(subject.errors.password).toEqual(["too short"])
+        expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+    });
+
+    describe('password does not contain uppercase letter', () => {
+      beforeEach(() => {
+        params.password = 'password123!';
+        params.password_confirmation = 'password123!';
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.password).toEqual(["doesn't contain an uppercase letter"])
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });

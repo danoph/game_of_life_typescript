@@ -44,6 +44,12 @@ export class SignupForm {
       if(this.params.password.length < this.AUTH_CONFIG.MIN_PASSWORD_LENGTH){
         this.errors.password = [ "too short" ];
       }
+
+      if(!this.doesPasswordContainUppercase(this.params.password)){
+        this.errors.password = ["doesn't contain an uppercase letter"];
+      }
+      
+
     }
     
 
@@ -54,5 +60,15 @@ export class SignupForm {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegex.test(email);
   }
+
+  // password format logic
+
+  private doesPasswordContainUppercase(password:string):boolean{
+    const uppercaseRegex = /[A-Z]+/;
+
+    return uppercaseRegex.test(password);
+  }
+
+  // end password format logic
 
 }
