@@ -12,6 +12,9 @@ interface FormErrors {
 
 export class SignupForm {
   errors: FormErrors = {};
+  AUTH_CONFIG = {
+    MIN_PASSWORD_LENGTH: 8
+  };
 
   constructor(private params: ISignupFormParams = {}) {}
 
@@ -37,6 +40,12 @@ export class SignupForm {
     if(this.params.password !== this.params.password_confirmation){
       this.errors.password = [ "does not match" ];
     }
+    else{
+      if(this.params.password.length < this.AUTH_CONFIG.MIN_PASSWORD_LENGTH){
+        this.errors.password = [ "too short" ];
+      }
+    }
+    
 
     return Object.keys(this.errors).length === 0;
   }

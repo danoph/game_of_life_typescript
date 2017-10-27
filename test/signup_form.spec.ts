@@ -122,5 +122,32 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
+
+
+// must be at least 8 characters
+// must include at least 1 uppercase letter
+// must include at least 1 lowercase letter
+// must include at least 1 special character (ex ‘%’)
+// must include at least 1 number
+
+    describe('password is too short', () => {
+      beforeEach(() => {
+        params = {
+          first_name: 'Daniel',
+          last_name: 'Errante',
+          email: 'test@example.com',
+          password: 'pw123',
+          password_confirmation: 'pw123'
+        }
+
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.password).toEqual(["too short"])
+        expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+    });
   });
 });
