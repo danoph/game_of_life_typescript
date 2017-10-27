@@ -1,6 +1,5 @@
 export class PasswordValidator {
-  constructor(private password:string) {
-  }
+  constructor(private password:string) {}
 
   isValid() {
     return !!(
