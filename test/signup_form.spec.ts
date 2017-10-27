@@ -64,5 +64,24 @@ describe('SignupForm', () => {
         expect(subject.errors.last_name).toEqual(["can't be blank"])
       });
     });
+
+    describe('email is not a valid email', () => {
+      beforeEach(() => {
+        params = {
+          first_name: 'Daniel',
+          last_name: 'Errante',
+          email: 'invalidemail',
+          password: 'password123',
+          password_confirmation: 'password123'
+        }
+
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.email).toEqual(["not a valid email address"])
+      });
+    });
   });
 });
