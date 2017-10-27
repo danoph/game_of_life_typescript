@@ -1,5 +1,11 @@
 import { SignupForm } from '../src/signup_form';
 
+// Requirements:
+// - all fields must be sent, not empty string
+// - email must be valid email
+// - password must be valid password and match complexity requirements
+// - password confirmation must match password field
+
 describe('SignupForm', () => {
   let subject;
   let params;
