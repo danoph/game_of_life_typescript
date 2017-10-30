@@ -10,7 +10,7 @@ import { SignupForm } from '../src/signup_form';
     // must be at least 8 characters
     // must include at least 1 uppercase letter
     // must include at least 1 lowercase letter
-    // must include at least 1 special character (ex ‘%’)
+    // must include at least 1 special character from list: !@#$%^&*()
     // must include at least 1 number
 // - password confirmation must match password field
 
@@ -168,5 +168,19 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
+    describe('password does not contain special character', () => {
+      beforeEach(() => {
+        params.password = 'Password123';
+        params.password_confirmation = 'Password123';
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.password).toEqual(["doesn't contain a special character"])
+        expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+    });
+
   });
 });
