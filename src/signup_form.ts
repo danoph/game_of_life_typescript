@@ -50,6 +50,9 @@ export class SignupForm {
         this.pushPasswordError("doesn't contain an uppercase letter");
       }
       
+      if(!this.doesPasswordContainLowercase(this.params.password)){
+        this.pushPasswordError("doesn't contain a lowercase letter");
+      }
       
 
     }
@@ -73,6 +76,11 @@ export class SignupForm {
 
   private doesPasswordContainUppercase(password:string):boolean{
     const uppercaseRegex = /[A-Z]+/;
+
+    return uppercaseRegex.test(password);
+  }
+  private doesPasswordContainLowercase(password:string):boolean{
+    const uppercaseRegex = /[a-z]+/;
 
     return uppercaseRegex.test(password);
   }

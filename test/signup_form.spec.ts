@@ -4,7 +4,10 @@ import { SignupForm } from '../src/signup_form';
 // - all fields must be sent, not empty string
 // - email must be valid email
 // - password must be valid password and match complexity requirements
-   // must be at least 8 characters
+    // Each requirement is independent and any violations should be listed.
+        // e.g.  A password that is too short and doesn't contain a required character should
+        // return 2 errors.
+    // must be at least 8 characters
     // must include at least 1 uppercase letter
     // must include at least 1 lowercase letter
     // must include at least 1 special character (ex ‘%’)
@@ -81,6 +84,18 @@ describe('SignupForm', () => {
       });
     });
 
+    describe('email is not a valid email 2', () => {
+      beforeEach(() => {
+        params.email = 'invalidemail.com';
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.email).toEqual(["not a valid email address"])
+      });
+    });
+
     describe('password does not match password confirmation', () => {
       beforeEach(() => {
         params.password_confirmation = 'password1234';
@@ -96,8 +111,8 @@ describe('SignupForm', () => {
 
     describe('password is too short', () => {
       beforeEach(() => {
-        params.password = 'Pw123';
-        params.password_confirmation = 'Pw123';
+        params.password = 'Pw12#';
+        params.password_confirmation = 'Pw12#';
         subject = new SignupForm(params);
       });
 
@@ -107,7 +122,7 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
 
-      describe('password does not contain uppercase letter', () => {
+      describe('password does not contain uppercase letter and is too short', () => {
         beforeEach(() => {
           params.password = 'pw123!';
           params.password_confirmation = 'pw123!';
@@ -136,6 +151,20 @@ describe('SignupForm', () => {
       it('is not valid', () => {
         expect(subject.isValid()).toEqual(false);
         expect(subject.errors.password).toEqual(["doesn't contain an uppercase letter"])
+        expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+    });
+
+    describe('password does not contain lowercase letter', () => {
+      beforeEach(() => {
+        params.password = 'PASSWORD123!';
+        params.password_confirmation = 'PASSWORD123!';
+        subject = new SignupForm(params);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.password).toEqual(["doesn't contain a lowercase letter"])
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
