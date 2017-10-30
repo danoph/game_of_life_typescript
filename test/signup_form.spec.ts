@@ -4,6 +4,11 @@ import { SignupForm } from '../src/signup_form';
 // - all fields must be sent, not empty string
 // - email must be valid email
 // - password must be valid password and match complexity requirements
+   // must be at least 8 characters
+    // must include at least 1 uppercase letter
+    // must include at least 1 lowercase letter
+    // must include at least 1 special character (ex ‘%’)
+    // must include at least 1 number
 // - password confirmation must match password field
 
 describe('SignupForm', () => {
@@ -88,13 +93,6 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
-
-
-    // must be at least 8 characters
-    // must include at least 1 uppercase letter
-    // must include at least 1 lowercase letter
-    // must include at least 1 special character (ex ‘%’)
-    // must include at least 1 number
 
     describe('password is too short', () => {
       beforeEach(() => {
