@@ -16,7 +16,7 @@ export class SignupForm {
     MIN_PASSWORD_LENGTH: 8
   };
 
-  constructor(private params: ISignupFormParams = {}) {}
+  constructor(private params: ISignupFormParams) {}
 
   isValid(): boolean {
 
@@ -90,7 +90,7 @@ export class SignupForm {
   private doesPasswordContainSpecialCharacter(password:string):boolean{
     const regex = /[!@#$%^&*()]+/;
 
-    return !regex.test(password);
+    return regex.test(password);
   }
 
   // end password format logic
