@@ -12,6 +12,7 @@ interface FormErrors {
 
 export class SignupForm {
   errors: FormErrors = {};
+
   AUTH_CONFIG = {
     MIN_PASSWORD_LENGTH: 8,
     PASSWORD_REGEX: {
