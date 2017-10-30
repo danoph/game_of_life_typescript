@@ -20,12 +20,15 @@ describe('SignupForm', () => {
 
   describe('all params sent', () => {
     beforeEach(() => {
+      // use a constant to ensure a different password for confirm cannot be used
+      const password = 'Password123!';
+
       params = {
         first_name: 'Daniel',
         last_name: 'Errante',
         email: 'test@example.com',
-        password: 'Password123!',
-        password_confirmation: 'Password123!'
+        password: password,
+        password_confirmation: password
       }
 
       subject = new SignupForm(params);
@@ -181,6 +184,7 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
+
     describe('password does not contain number', () => {
       beforeEach(() => {
         params.password = 'Password!';
@@ -194,5 +198,7 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
+
+
   });
 });
