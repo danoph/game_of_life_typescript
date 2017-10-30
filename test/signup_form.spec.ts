@@ -181,6 +181,18 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
+    describe('password does not contain number', () => {
+      beforeEach(() => {
+        params.password = 'Password!';
+        params.password_confirmation = 'Password!';
+        subject = new SignupForm(params);
+      });
 
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.errors.password).toEqual(["doesn't contain a number"])
+        expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+    });
   });
 });
