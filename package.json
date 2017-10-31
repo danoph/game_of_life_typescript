@@ -1,8 +1,11 @@
 {
-  "name": "game_of_life",
+  "name": "smoking_brothers_api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/danoph/game_of_life_ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danoph/game_of_life_ts.git"
+  },
   "author": "Daniel Errante <danoph@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -15,5 +18,16 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.0",
     "karma-typescript": "^3.0.8"
+  },
+  "description": "Assumptions: - Node >7 installed - karma-cli installed (npm i -g karma-cli) - You aren't using windows",
+  "bugs": {
+    "url": "https://github.com/danoph/game_of_life_ts/issues"
+  },
+  "homepage": "https://github.com/danoph/game_of_life_ts#readme",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
