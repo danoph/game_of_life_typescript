@@ -43,6 +43,7 @@ describe('SignupForm', () => {
 
     describe('first name is empty string', () => {
       beforeEach(() => {
+        console.log(stmts);
         params.first_name = '';
         subject = new SignupForm(params, stmts);
       });
