@@ -5,6 +5,8 @@ import { EnglishErrorStatmentsLibrary } from '../src/statement_libraries/English
 // 11.6.17 - requirement #2: app needs a reset password form
 // password must match original password in DB, provided by external class
 // new password must meet all password requirements on signup form
+//
+// TODO additional requirement: ability to use custom error messages for certain errors
 
 describe('ResetPasswordForm', () => {
   let subject;
@@ -53,6 +55,19 @@ describe('ResetPasswordForm', () => {
     it('is valid', () => {
       expect(subject.isValid()).toEqual(true);
       expect(subject.hasErrors()).toEqual(false);
+    });
+
+    describe('password does not match password confirmation', () => {
+      beforeEach(() => {
+        params.new_password_confirmation = 'password1234';
+        subject = new ResetPasswordForm(userId, params, passwordValidationRules, stmts);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.hasErrors()).toEqual(true);
+        expect(subject.errors.password).toEqual(["does not match"])
+      });
     });
   });
 
