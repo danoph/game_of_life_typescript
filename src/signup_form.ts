@@ -17,14 +17,14 @@ export class PasswordValidationRules {
   includesUpperChar: boolean;
   includesLowerChar: boolean;
   includesSpecialChar: boolean;
-  //includesNumber: boolean;
+  includesNumber: boolean;
 
   constructor(attrs: any = {}) {
     this.meetsMinLength = attrs.meetsMinLength;
     this.includesUpperChar = attrs.includesUpperChar;
     this.includesLowerChar = attrs.includesLowerChar;
     this.includesSpecialChar = attrs.includesSpecialChar;
-    //this.includesNumber = attrs.includesNumber;
+    this.includesNumber = attrs.includesNumber;
   }
 }
 
@@ -97,8 +97,10 @@ export class SignupForm {
         }
       }
 
-      if (!this.AUTH_CONFIG.PASSWORD_REGEX_NUMBER.test(this.params.password)) {
-        this.pushPasswordError(this.errorStatements.PASSWORD_DOES_NOT_CONTAIN_NUMBER);
+      if (this.passwordValidationRules.includesNumber) {
+        if (!this.AUTH_CONFIG.PASSWORD_REGEX_NUMBER.test(this.params.password)) {
+          this.pushPasswordError(this.errorStatements.PASSWORD_DOES_NOT_CONTAIN_NUMBER);
+        }
       }
 
     }

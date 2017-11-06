@@ -43,7 +43,8 @@ describe('SignupForm', () => {
         meetsMinLength: true,
         includesUpperChar: true,
         includesLowerChar: true,
-        includesSpecialChar: true
+        includesSpecialChar: true,
+        includesNumber: true
       });
 
       subject = new SignupForm(params, passwordValidationRules, stmts);
@@ -272,6 +273,21 @@ describe('SignupForm', () => {
         expect(subject.isValid()).toEqual(false);
         expect(subject.errors.password).toEqual(["doesn't contain a number"])
         expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+
+      describe('password validation rules do not require number', () => {
+        beforeEach(() => {
+          passwordValidationRules = new PasswordValidationRules({
+            includesNumber: false
+          });
+
+          subject = new SignupForm(params, passwordValidationRules, stmts);
+        });
+
+        it('is valid', () => {
+          expect(subject.isValid()).toEqual(true);
+          expect(Object.keys(subject.errors).length).toEqual(0);
+        });
       });
     });
   });
