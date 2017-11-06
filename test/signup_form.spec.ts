@@ -1,4 +1,4 @@
-import { SignupForm } from '../src/signup_form';
+import { SignupForm, PasswordValidationRules } from '../src/signup_form';
 import { EnglishErrorStatmentsLibrary } from '../src/statement_libraries/EnglishErrorStatmentsLibrary';
 
 // Requirements:
@@ -15,14 +15,20 @@ import { EnglishErrorStatmentsLibrary } from '../src/statement_libraries/English
     // must include at least 1 number
 // - password confirmation must match password field
 
+// 11.6.17 - customer requires that individual complexity requirements can be turned on and off
+// form requirements are passed in via a config object
+
 describe('SignupForm', () => {
   let subject;
   let params;
   let stmts = new EnglishErrorStatmentsLibrary();
 
+  let passwordValidationRules: PasswordValidationRules;
+
   describe('all params sent', () => {
     beforeEach(() => {
       // use a constant to ensure a different password for confirm cannot be used
+      // note to jason: this is only enforced within this beforeEach block since password is declared in the beforeEach context
       const password = 'Password123!';
 
       params = {
@@ -33,7 +39,11 @@ describe('SignupForm', () => {
         password_confirmation: password
       }
 
-      subject = new SignupForm(params, stmts);
+      passwordValidationRules = new PasswordValidationRules({
+        meetsMinLength: true
+      });
+
+      subject = new SignupForm(params, passwordValidationRules, stmts);
     });
 
     it('is valid', () => {
@@ -44,7 +54,7 @@ describe('SignupForm', () => {
     describe('first name is empty string', () => {
       beforeEach(() => {
         params.first_name = '';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -56,7 +66,7 @@ describe('SignupForm', () => {
     describe('last name is empty string', () => {
       beforeEach(() => {
         params.last_name = '';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -68,7 +78,7 @@ describe('SignupForm', () => {
     describe('email is blank', () => {
       beforeEach(() => {
         params.email = '';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -80,7 +90,7 @@ describe('SignupForm', () => {
     describe('email is not a valid email', () => {
       beforeEach(() => {
         params.email = 'invalidemail';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -92,7 +102,7 @@ describe('SignupForm', () => {
     describe('email is not a valid email 2', () => {
       beforeEach(() => {
         params.email = 'invalidemail.com';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -104,7 +114,7 @@ describe('SignupForm', () => {
     describe('password does not match password confirmation', () => {
       beforeEach(() => {
         params.password_confirmation = 'password1234';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -118,7 +128,7 @@ describe('SignupForm', () => {
       beforeEach(() => {
         params.password = 'Pw12#';
         params.password_confirmation = 'Pw12#';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -131,7 +141,7 @@ describe('SignupForm', () => {
         beforeEach(() => {
           params.password = 'pw123!';
           params.password_confirmation = 'pw123!';
-          subject = new SignupForm(params, stmts);
+          subject = new SignupForm(params, passwordValidationRules, stmts);
         });
 
         it('is not valid', () => {
@@ -144,13 +154,28 @@ describe('SignupForm', () => {
           expect(Object.keys(subject.errors).length).toEqual(1);
         });
       });
+
+      describe('password validation rules do not require min length', () => {
+        beforeEach(() => {
+          passwordValidationRules = new PasswordValidationRules({
+            meetsMinLength: false
+          });
+
+          subject = new SignupForm(params, passwordValidationRules, stmts);
+        });
+
+        it('is valid', () => {
+          expect(subject.isValid()).toEqual(true);
+          expect(Object.keys(subject.errors).length).toEqual(0);
+        });
+      });
     });
 
     describe('password does not contain uppercase letter', () => {
       beforeEach(() => {
         params.password = 'password123!';
         params.password_confirmation = 'password123!';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -164,7 +189,7 @@ describe('SignupForm', () => {
       beforeEach(() => {
         params.password = 'PASSWORD123!';
         params.password_confirmation = 'PASSWORD123!';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -177,7 +202,7 @@ describe('SignupForm', () => {
       beforeEach(() => {
         params.password = 'Password123';
         params.password_confirmation = 'Password123';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -191,7 +216,7 @@ describe('SignupForm', () => {
       beforeEach(() => {
         params.password = 'Password!';
         params.password_confirmation = 'Password!';
-        subject = new SignupForm(params, stmts);
+        subject = new SignupForm(params, passwordValidationRules, stmts);
       });
 
       it('is not valid', () => {
@@ -200,7 +225,5 @@ describe('SignupForm', () => {
         expect(Object.keys(subject.errors).length).toEqual(1);
       });
     });
-
-
   });
 });

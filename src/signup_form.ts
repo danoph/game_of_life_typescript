@@ -12,6 +12,22 @@ interface FormErrors {
   [key: string]: string[];
 };
 
+export class PasswordValidationRules {
+  meetsMinLength: boolean;
+  //includesUpperChar: boolean;
+  //includesLowerChar: boolean;
+  //includesSpecialChar: boolean;
+  //includesNumber: boolean;
+
+  constructor(attrs: any = {}) {
+    this.meetsMinLength = attrs.meetsMinLength;
+    //this.includesUpperChar = attrs.includesUpperChar;
+    //this.includesLowerChar = attrs.includesLowerChar;
+    //this.includesSpecialChar = attrs.includesSpecialChar;
+    //this.includesNumber = attrs.includesNumber;
+  }
+}
+
 export class SignupForm {
   errors: FormErrors = {};
 
@@ -24,7 +40,11 @@ export class SignupForm {
     EMAIL_REGEX: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   };
 
-  constructor(private params: ISignupFormParams, private errorStatements: IErrorStatmentLibrary) { }
+  constructor(
+    private params: ISignupFormParams,
+    private passwordValidationRules: PasswordValidationRules,
+    private errorStatements: IErrorStatmentLibrary
+  ) {}
 
   isValid(): boolean {
 
@@ -53,8 +73,10 @@ export class SignupForm {
       this.pushPasswordError(this.errorStatements.PASSWORDS_DO_NOT_MATCH)
     }
     else {
-      if (this.params.password.length < this.AUTH_CONFIG.PASSWORD_MINIMUM_LENGTH) {
-        this.pushPasswordError(this.errorStatements.PASSWORD_TOO_SHORT);
+      if (this.passwordValidationRules.meetsMinLength) {
+        if (this.params.password.length < this.AUTH_CONFIG.PASSWORD_MINIMUM_LENGTH) {
+          this.pushPasswordError(this.errorStatements.PASSWORD_TOO_SHORT);
+        }
       }
 
       if (!this.AUTH_CONFIG.PASSWORD_REGEX_UPPERCASE.test(this.params.password)) {
@@ -68,7 +90,7 @@ export class SignupForm {
       if (!this.AUTH_CONFIG.PASSWORD_REGEX_SPECIAL.test(this.params.password)) {
         this.pushPasswordError(this.errorStatements.PASSWORD_DOES_NOT_CONTAIN_SPECIAL_CHARACTER);
       }
-      
+
       if (!this.AUTH_CONFIG.PASSWORD_REGEX_NUMBER.test(this.params.password)) {
         this.pushPasswordError(this.errorStatements.PASSWORD_DOES_NOT_CONTAIN_NUMBER);
       }
