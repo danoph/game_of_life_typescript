@@ -69,6 +69,20 @@ describe('ResetPasswordForm', () => {
         expect(subject.errors.password).toEqual(["does not match"])
       });
     });
+
+    describe('password is too short', () => {
+      beforeEach(() => {
+        params.new_password = 'Pw12#';
+        params.new_password_confirmation = 'Pw12#';
+        subject = new ResetPasswordForm(userId, params, passwordValidationRules, stmts);
+      });
+
+      it('is not valid', () => {
+        expect(subject.isValid()).toEqual(false);
+        expect(subject.hasErrors()).toEqual(true);
+        expect(subject.errors.password).toEqual(["too short"])
+      });
+    });
   });
 
   describe('user id existing password are invalid', () => {
