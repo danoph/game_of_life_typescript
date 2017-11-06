@@ -43,6 +43,7 @@ describe('SignupForm', () => {
         meetsMinLength: true,
         includesUpperChar: true,
         includesLowerChar: true,
+        includesSpecialChar: true
       });
 
       subject = new SignupForm(params, passwordValidationRules, stmts);
@@ -242,6 +243,21 @@ describe('SignupForm', () => {
         expect(subject.isValid()).toEqual(false);
         expect(subject.errors.password).toEqual(["doesn't contain a special character"])
         expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+
+      describe('password validation rules do not require special char', () => {
+        beforeEach(() => {
+          passwordValidationRules = new PasswordValidationRules({
+            includesSpecialChar: false
+          });
+
+          subject = new SignupForm(params, passwordValidationRules, stmts);
+        });
+
+        it('is valid', () => {
+          expect(subject.isValid()).toEqual(true);
+          expect(Object.keys(subject.errors).length).toEqual(0);
+        });
       });
     });
 
