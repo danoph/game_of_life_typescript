@@ -15,14 +15,14 @@ interface FormErrors {
 export class PasswordValidationRules {
   meetsMinLength: boolean;
   includesUpperChar: boolean;
-  //includesLowerChar: boolean;
+  includesLowerChar: boolean;
   //includesSpecialChar: boolean;
   //includesNumber: boolean;
 
   constructor(attrs: any = {}) {
     this.meetsMinLength = attrs.meetsMinLength;
     this.includesUpperChar = attrs.includesUpperChar;
-    //this.includesLowerChar = attrs.includesLowerChar;
+    this.includesLowerChar = attrs.includesLowerChar;
     //this.includesSpecialChar = attrs.includesSpecialChar;
     //this.includesNumber = attrs.includesNumber;
   }
@@ -85,8 +85,10 @@ export class SignupForm {
         }
       }
 
-      if (!this.AUTH_CONFIG.PASSWORD_REGEX_LOWERCASE.test(this.params.password)) {
-        this.pushPasswordError(this.errorStatements.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE);
+      if (this.passwordValidationRules.includesLowerChar) {
+        if (!this.AUTH_CONFIG.PASSWORD_REGEX_LOWERCASE.test(this.params.password)) {
+          this.pushPasswordError(this.errorStatements.PASSWORD_DOES_NOT_CONTAIN_LOWERCASE);
+        }
       }
 
       if (!this.AUTH_CONFIG.PASSWORD_REGEX_SPECIAL.test(this.params.password)) {
