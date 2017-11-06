@@ -40,7 +40,8 @@ describe('SignupForm', () => {
       }
 
       passwordValidationRules = new PasswordValidationRules({
-        meetsMinLength: true
+        meetsMinLength: true,
+        includesUpperChar: true,
       });
 
       subject = new SignupForm(params, passwordValidationRules, stmts);
@@ -182,6 +183,21 @@ describe('SignupForm', () => {
         expect(subject.isValid()).toEqual(false);
         expect(subject.errors.password).toEqual(["doesn't contain an uppercase letter"])
         expect(Object.keys(subject.errors).length).toEqual(1);
+      });
+
+      describe('password validation rules do not require uppercase', () => {
+        beforeEach(() => {
+          passwordValidationRules = new PasswordValidationRules({
+            includesUpperChar: false
+          });
+
+          subject = new SignupForm(params, passwordValidationRules, stmts);
+        });
+
+        it('is valid', () => {
+          expect(subject.isValid()).toEqual(true);
+          expect(Object.keys(subject.errors).length).toEqual(0);
+        });
       });
     });
 
