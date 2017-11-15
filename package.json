@@ -9,15 +9,20 @@
   "author": "Daniel Errante <danoph@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
+    "request": "^2.83.0",
+    "superagent": "^3.8.1",
     "typescript": "^2.5.3"
   },
   "devDependencies": {
     "@types/jasmine": "^2.6.2",
+    "@types/supertest": "^2.0.3",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.0",
-    "karma-typescript": "^3.0.8"
+    "karma-typescript": "^3.0.8",
+    "supertest": "^3.0.0"
   },
   "description": "Assumptions: - Node >7 installed - karma-cli installed (npm i -g karma-cli) - You aren't using windows",
   "bugs": {
@@ -28,6 +33,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine",
+    "start": "ts-node index.ts"
   }
 }
