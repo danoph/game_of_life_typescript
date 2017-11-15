@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/jasmine": "^2.6.2",
     "@types/supertest": "^2.0.3",
+    "chokidar-cli": "^1.2.0",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -34,6 +35,7 @@
   },
   "scripts": {
     "test": "jasmine",
-    "start": "ts-node index.ts"
+    "test:watch": "chokidar 'dist/**/*.js' -c 'yarn run test'",
+    "build:watch": "tsc -w"
   }
 }

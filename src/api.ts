@@ -5,7 +5,8 @@ import * as request from 'superagent';
 
 export class Api {
   get(url) {
-    console.log('getting url', url);
+    //console.log('getting url', url);
+
     return request
       .get(url)
       .then(response => {
@@ -13,6 +14,7 @@ export class Api {
         //console.log('response', response);
       })
       .catch(err => {
+        return err;
         console.log('err', err);
       });
       //.query({ action: 'edit', city: 'London' }) // query string
