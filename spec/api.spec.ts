@@ -4,8 +4,6 @@ describe('hitting external api', () => {
   let api;
   let url;
 
-  let responseBody;
-
   beforeEach(() => {
     api = new Api();
     url = 'https://api.leancafe.io/status';
@@ -13,12 +11,11 @@ describe('hitting external api', () => {
 
   it('uses api', done => {
     api.get(url).then(response => {
-      responseBody = response.body;
+      //console.log(response.body);
+      //expect(response.body).toEqual({});
 
-      expect(responseBody.status).toEqual('up');
+      expect(response.body.status).toEqual('up');
       //expect(responseBody.server_ts).toEqual('124123');
-
-      //expect(responseBody).toEqual({});
 
       done();
     })
